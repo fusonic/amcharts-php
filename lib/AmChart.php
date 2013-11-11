@@ -151,8 +151,8 @@ abstract class AmChart
 			. '// <![CDATA[' . "\n"
 			. 'var flashvars = {};' . "\n"
 			. 'flashvars.chart_id = "' . $this->id . '";' . "\n"
-			. 'flashvars.chart_settings = escape("' . str_replace("\"", "'", $this->getConfigXml()) . '");' . "\n"
-			. 'flashvars.chart_data = escape("' . str_replace("\"", "'", $this->getDataXml()) . '");' . "\n"
+			. 'flashvars.chart_settings = escape(' . json_encode($this->getConfigXml()) . ');' . "\n"
+			. 'flashvars.chart_data = escape(' . json_encode($this->getDataXml()) . ');' . "\n"
 			. 'flashvars.path = "' . self::$libraryPath . '";' . "\n"
 			. 'var params = {};' . "\n"
 			. ($bgColor == "transparent" ? 'params.wmode="transparent";' . "\n" : "")
