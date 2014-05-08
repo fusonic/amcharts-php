@@ -28,103 +28,68 @@ require_once(dirname(__FILE__) . "/AmChart.php");
 class AmBubbleChart extends AmChart 
 {
 
+    protected $data = array();
 	protected $graphs = array();
-	protected $defaultGraphConfig = array();
+    protected $jsPath = "xy.js";
 
-	/**
-	 * @see AmChart::getSwfPath()
-	 */
-	protected function getSwfPath() 
-	{
-		return self::$libraryPath . "/amxy.swf";
-	}
+    /**
+     * @see AmChart::getJSPath()
+     */
+    public function getJSPath()
+    {
+        return $this->jsPath;
+    }
 
-	/**
-	 * Adds a graph to the chart.
-	 *
-	 * @param	string				$_id
-	 * @param	array				$_data
-	 * @param	array				$_config
-	 */
-	public function addGraph($_id, $_title, array $_data, array $_config = array()) 
-	{
-		$this->graphs[$_id] = array(
-			"title" => $_title,
-			"data" => $_data,
-			"config" => $_config
-		);
-	}
+    /**
+     * Adds a new graph
+     * @param	string				$_id
+     * @param	string				$_title
+     * @param	array				$_config
+     */
+    public function addGraph($_id, $_title, array $_config = array())
+    {
+        $this->graphs[] = array_merge(array(
+            "valueField" => $_id,
+            "title" => $_title
+        ), $_config);
+    }
 
-	/**
-	 * Sets the default config for graphs.
-	 *
-	 * @param	array				$_config
-	 */
-	public function setDefaultGraphConfig(array $_config) 
-	{
-		$this->defaultGraphConfig = $_config;
-	}
+    public function addData($data)
+    {
+        $this->data = $data;
+    }
 
-	/**
-	 * @see AmChart::getDataXml()
-	 */
-	public function getDataXml($_asString = true) 
-	{
-		$chart = new SimpleXmlElement("<chart></chart>");
+    /**
+     * @see AmChart::getData()
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
 
-		/*
-		 * Graphs
-		 */
-
-		$graphs = $chart->addChild("graphs");
-
-		foreach($this->graphs AS $key => $graph) 
-		{
-			$graphNode = $graphs->addChild("graph");
-
-			// Set attributes
-			$graphNode->addAttribute("gid", $key);
-			$graphNode->addAttribute("title", $graph['title']);
-
-			$allAttributes = array_merge($this->defaultGraphConfig, $graph['config']);
-
-			foreach($allAttributes AS $key => $value) 
-			{
-				$graphNode->addAttribute($key, ($value === true ? "true" : ($value === false ? "false" : $value)));
-			}
-
-			// Set data
-			foreach($graph['data'] AS $point) 
-			{
-				$pointNode = $graphNode->addChild("point", (isset($point['title']) ? $point['title'] : null));
-
-				foreach($point AS $key => $value) 
-				{
-					if($key == "title")
-					{
-						continue;
-					}
-
-					$pointNode->addAttribute($key, ($value === true ? "true" : ($value === false ? "false" : $value)));
-				}
-			}
-		}
+    /**
+     * @see AmChart::setJSPath($path)
+     */
+    public function setJsPath($path)
+    {
+        $this->jsPath = $path;
+    }
 
 
-		/*
-		 * Return
-		 */
-		if($_asString) 
-		{
-			$xmlString = $chart->asXML();
-			// Remove XML Tag (not needed for config)
-			$xmlString = trim(substr($xmlString, strpos($xmlString, "?>") + 2));
-			return $xmlString;
-		}
-		else
-		{
-			return $chart;
-		}
-	}
+    protected function setDefaultConfig()
+    {
+        $this->config["type"] = "xy";
+    }
+
+    /**
+     * Returns the config array.
+     *
+     * @return    array
+     */
+    public function getConfig()
+    {
+        $this->config['graphs'] = $this->graphs;
+        return $this->config;
+    }
 
 }
