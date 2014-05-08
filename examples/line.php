@@ -1,64 +1,106 @@
 <?php
 
 /*
- * Read README file first.
- *
- * This example shows how to create a simple line chart with a few configuration
- * directives.
+ * This example shows how to create a simple line chart with a few configuration directives.
  * The values are from http://www.globalissues.org/article/26/poverty-facts-and-stats
  */
 
 // Require necessary files
-require("../lib/AmLineChart.php");
+require("../lib/AmSerialChart.php");
 
-// Alls paths are relative to your base path (normally your php file)
-// Path to swfobject.js
-AmChart::$swfObjectPath = "swfobject.js";
-// Path to AmCharts files (SWF files)
-AmChart::$libraryPath = "../../../amcharts";
-// Path to jquery.js
-AmChart::$jQueryPath = "jquery.js";
+// Create a new serial chart
+$chart = new AmSerialChart("myLineChart");
 
-// Initialize the chart (the parameter is just a unique id used to handle multiple
-// charts on one page.)
-$chart = new AmLineChart("myLineChart");
+// Set the path to the amcharts JS library
+$chart->setLibraryPath("../amcharts");
 
-// The title we set will be shown above the chart, not in the flash object.
-// So you can format it using CSS.
-$chart->setTitle("People in the world at different poverty levels, 2005");
+// Set the X axes to represent the "year" field (optional)
+$chart->setConfig("categoryField", "year");
+// Use a chart cursor (optional)
+$chart->setConfig("chartCursor", array("cursorPointer" => "mouse"));
 
-// Add a label to describe the X values (inside the chart).
-$chart->addLabel("The values on the X axis describe the Purchasing Power in USD Dollars a day.", 0, 20);
+// Add the data for the chart to use
+$chart->addData(getData());
 
-// Add all values for the X axis
-$chart->addSerie("1_00", "$1.00");
-$chart->addSerie("1_25", "$1.25");
-$chart->addSerie("1_45", "$1.45");
-$chart->addSerie("2_00", "$2.00");
-$chart->addSerie("2_50", "$2.50");
-$chart->addSerie("10_00", "$10.00");
-
-// Define graphs data
-$belowPovertyLine = array(
-	"1_00" => 0.88,
-	"1_25" => 1.40,
-	"1_45" => 1.72,
-	"2_00" => 2.60,
-	"2_50" => 3.14,
-	"10_00" => 5.15
-);
-$abovePovertyLine = array(
-	"1_00" => 5.58,
-	"1_25" => 5.06,
-	"1_45" => 4.74,
-	"2_00" => 3.86,
-	"2_50" => 3.32,
-	"10_00" => 1.31
+// Add 2 graphs
+$graphConfigBolivia = array(
+    "valueField" => "bolivia",
+    "balloonText" => "Bolivia: [[value]] $", // Optional
 );
 
-// Add graphs
-$chart->addGraph("below", "Below the poverty line", $belowPovertyLine);
-$chart->addGraph("above", "Above the poverty line", $abovePovertyLine);
+$chart->addGraph("Bolivia", "GDP from Bolivia", $graphConfigBolivia);
 
-// Print the code
+$graphConfigArgentina = array(
+    "valueField" => "argentina",
+    "balloonText" => "Argentina: [[value]] $" // Optional
+);
+
+$chart->addGraph("Argentina", "GDP from Argentina", $graphConfigArgentina);
+
+// Get the HTML/JS code
 echo $chart->getCode();
+
+/**
+ * Return sample data
+ * @return array
+ */
+function getData()
+{
+    return array(
+        array(
+            "bolivia" => 989,
+            "argentina" => 7701,
+            "year" => 2000
+        ),
+        array(
+            "bolivia" => 939,
+            "argentina" => 7209,
+            "year" => 2001
+        ),
+        array(
+            "bolivia" => 894,
+            "argentina" => 2712,
+            "year" => 2002
+        ),
+        array(
+            "bolivia" => 955,
+            "argentina" => 3413,
+            "year" => 2003
+        ),
+        array(
+            "bolivia" => 1021,
+            "argentina" => 3997,
+            "year" => 2004
+        ),
+        array(
+            "bolivia" => 1203,
+            "argentina" => 4740,
+            "year" => 2005
+        ),
+        array(
+            "bolivia" => 1356,
+            "argentina" => 5490,
+            "year" => 2006
+        ),
+        array(
+            "bolivia" => 1696,
+            "argentina" => 6630,
+            "year" => 2007
+        ),
+        array(
+            "bolivia" => 1735,
+            "argentina" => 8231,
+            "year" => 2008
+        ),
+        array(
+            "bolivia" => 1935,
+            "argentina" => 7674,
+            "year" => 2009
+        ),
+        array(
+            "bolivia" => 1925,
+            "argentina" => 0133,
+            "year" => 2010
+        ),
+    );
+}

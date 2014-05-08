@@ -22,14 +22,13 @@
 
 require_once(dirname(__FILE__) . "/AmChart.php");
 
-/**
- * Class to create a pie chart from the amCharts library.
- */
-class AmPieChart extends AmChart
+class AmSerialChart extends AmChart
 {
-    protected $slices = array();
-    protected $defaultSliceConfig = array();
-    protected $jsPath = "pie.js";
+    protected $data = array();
+    protected $valueAxes = array();
+    protected $graphs = array();
+    protected $jsPath = "serial.js";
+    protected $defaultGraphConfig = array();
 
     /**
      * @see AmChart::getJSPath()
@@ -48,20 +47,48 @@ class AmPieChart extends AmChart
     }
 
     /**
-     * Adds a new slice to the pie chart.
+     * Adds a new ValueAxe (value on the X axis).
      *
      * @param	string				$_id
      * @param	string				$_title
-     * @param	mixed				$_value
      * @param	array				$_config
      */
-    public function addSlice($_id, $_title, $_value, array $_config = array())
+    public function addSerie($_id, $_title, array $_config = array())
     {
-        $this->slices[] = array(
+        $this->valueAxes[] = array(
             "id" => $_id,
             "title" => $_title,
-            "value" => $_value
+            "config" => $_config
         );
+    }
+
+    /**
+     * Adds a new graph (data line/bar).
+     * @param	string				$_id
+     * @param	string				$_title
+     * @param	array				$_config
+     */
+    public function addGraph($_id, $_title, array $_config = array())
+    {
+        $this->graphs[] = array_merge(array(
+            "valueField" => $_id,
+            "title" => $_title
+        ), $_config);
+    }
+
+    public function addData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * Sets the default config for graphs.
+     *
+     * @param	array				$_config
+     */
+    public function setDefaultGraphConfig(array $_config)
+    {
+        $this->defaultGraphConfig = $_config;
     }
 
     /**
@@ -69,15 +96,15 @@ class AmPieChart extends AmChart
      */
     public function getData()
     {
-        return $this->slices;
+        return $this->data;
     }
 
-
+    /**
+     * @see AmChart::setDefaultConfig()
+     */
     protected function setDefaultConfig()
     {
-        $this->config['type'] = "pie";
-        $this->config['titleField'] = "title";
-        $this->config['valueField'] = "value";
+        $this->config['type'] = "serial";
     }
 
     /**
@@ -87,6 +114,8 @@ class AmPieChart extends AmChart
      */
     public function getConfig()
     {
+        $this->config['graphs'] = $this->graphs;
+        $this->config['valueAxes'] = $this->valueAxes;
         return $this->config;
     }
 }
