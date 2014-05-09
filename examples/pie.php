@@ -3,7 +3,7 @@
 /*
  * This example shows how to create a simple pie chart
  */
-ini_set("display_errors", 1);
+
 // Require necessary files
 require("../lib/AmPieChart.php");
 
