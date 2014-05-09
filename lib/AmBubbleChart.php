@@ -1,8 +1,8 @@
 <?php
 
 /*
- * AmCharts-PHP 0.2.2
- * Copyright (C) 2009-2010 Fusonic GmbH
+ * AmCharts-PHP 0.3
+ * Copyright (C) 2009-2014 Fusonic GmbH
  *
  * This file is part of AmCharts-PHP.
  *
@@ -42,19 +42,24 @@ class AmBubbleChart extends AmChart
 
     /**
      * Adds a new graph
-     * @param	string				$_id
-     * @param	string				$_title
-     * @param	array				$_config
+     * @param	string				$valueField
+     * @param   string              $xField
+     * @param   string              $yField
+     * @param	array				$config
      */
-    public function addGraph($_id, $_title, array $_config = array())
+    public function addGraph($valueField, $xField, $yField, array $config = array())
     {
         $this->graphs[] = array_merge(array(
-            "valueField" => $_id,
-            "title" => $_title
-        ), $_config);
+            "valueField" => $valueField,
+            "xField" => $xField,
+            "yField" => $yField,
+        ), $config);
     }
 
-    public function addData($data)
+    /**
+     * @see AmChart::setData($data)
+     */
+    public function setData($data)
     {
         $this->data = $data;
     }

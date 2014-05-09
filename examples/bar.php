@@ -15,20 +15,23 @@ $chart->setLibraryPath("../amcharts");
 
 // Set the X axes to represent the "country" field (optional)
 $chart->setConfig("categoryField", "country");
+
 // Add uber nice animation (optional)
 $chart->setConfig("startDuration", 1);
 
+// Add a title
+$chart->addTitle("GDP from some south american countries");
+
 // Add the data for the chart to use
-$chart->addData(getData());
+$chart->setData(getData());
 
 // Add graphs
 $graphConfigBolivia = array(
-    "valueField" => "gdp",
     "balloonText" => "[[country]]: [[gdp]] $", // Optional,
     "type" => "column"
 );
 
-$chart->addGraph("GDP", "GDP per capita", $graphConfigBolivia);
+$chart->addGraph("gdp", $graphConfigBolivia);
 
 // Get the HTML/JS code
 echo $chart->getCode();

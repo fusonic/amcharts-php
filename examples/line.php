@@ -20,22 +20,20 @@ $chart->setConfig("categoryField", "year");
 $chart->setConfig("chartCursor", array("cursorPointer" => "mouse"));
 
 // Add the data for the chart to use
-$chart->addData(getData());
+$chart->setData(getData());
 
 // Add 2 graphs
 $graphConfigBolivia = array(
-    "valueField" => "bolivia",
     "balloonText" => "Bolivia: [[value]] $", // Optional
 );
 
-$chart->addGraph("Bolivia", "GDP from Bolivia", $graphConfigBolivia);
+$chart->addGraph("bolivia", $graphConfigBolivia);
 
 $graphConfigArgentina = array(
-    "valueField" => "argentina",
     "balloonText" => "Argentina: [[value]] $" // Optional
 );
 
-$chart->addGraph("Argentina", "GDP from Argentina", $graphConfigArgentina);
+$chart->addGraph("argentina", $graphConfigArgentina);
 
 // Get the HTML/JS code
 echo $chart->getCode();

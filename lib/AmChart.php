@@ -1,8 +1,8 @@
 <?php
 
 /*
- * AmCharts-PHP 0.3.1
- * Copyright (C) 2009-2013 Fusonic GmbH
+ * AmCharts-PHP 0.3
+ * Copyright (C) 2009-2014 Fusonic GmbH
  *
  * This file is part of AmCharts-PHP.
  *
@@ -27,22 +27,19 @@ abstract class AmChart
 {
     private $id;
     protected $config = array();
-    protected $labels = array();
-    protected $alternativeText = "Chart loading ...";
-    protected $errorText = "Error!";
-    protected $libraryPath = "amcharts/";
+    protected $libraryPath;
 
     /**
      * Constructor can only be called from derived class because AmChart
      * is abstract.
      *
-     * @param	string				$_id
+     * @param	string				$id
      */
-    public function __construct($_id = null)
+    public function __construct($id = null)
     {
-        if($_id)
+        if($id)
         {
-            $this->id = $_id;
+            $this->id = $id;
         }
         else
         {
@@ -54,19 +51,27 @@ abstract class AmChart
         $this->setDefaultConfig();
     }
 
-    public function addLabel($_text, $_x, $_y, array $_config = array())
+    /**
+     * Add a title to the chart
+     *
+     * @param   string          $text
+     * @param   string          $color
+     * @param   int             $size
+     * @param   string          $id         HTML-ID of the title
+     * @param   string          $color
+     * @param   int             $alpha
+     * @return  void
+     */
+    public function addTitle($text, $color = "", $size = 14, $id = "chart-title", $color = "#000", $alpha = 1)
     {
-        $this->labels[] = array(
-            "text" => $_text,
-            "x" => $_x,
-            "y" => $_y,
-            "config" => $_config
+        $this->config["titles"][] = array(
+            "text" => $text,
+            "color" => $color,
+            "size" => $size,
+            "id" => $id,
+            "color" => $color,
+            "alpha" => $alpha
         );
-    }
-
-    public function setTitle($_title)
-    {
-        $this->config['title'] = $_title;
     }
 
     /**
@@ -98,33 +103,33 @@ abstract class AmChart
      *   "height" => "100px",
      * )
      *
-     * @param	array				$_config
-     * @param	bool				$_merge
+     * @param	array				$config
+     * @param	bool				$merge
      */
-    public function setConfigAll(array $_config, $_merge = false)
+    public function setConfigAll(array $config, $merge = false)
     {
-        if($_merge)
+        if($merge)
         {
-            foreach($_config AS $key => $value)
+            foreach($config AS $key => $value)
             {
                 $this->config[$key] = $value;
             }
         }
         else
         {
-            $this->config = $_config;
+            $this->config = $config;
         }
     }
 
     /**
      * Sets one config variable.
      *
-     * @param	string				$_key
-     * @param	mixed				$_value
+     * @param	string				$key
+     * @param	mixed				$value
      */
-    public function setConfig($_key, $_value)
+    public function setConfig($key, $value)
     {
-        $this->config[$_key] = $_value;
+        $this->config[$key] = $value;
     }
 
     /**
@@ -136,7 +141,7 @@ abstract class AmChart
 
     /**
      * Returns the ready-to-use config JSON string
-     * @return	mixed
+     * @return	string
      */
     public function getChartJSON()
     {
@@ -145,10 +150,19 @@ abstract class AmChart
     }
 
     /**
-     * Returns the ready-to-use data as JSON string
-     * @return	string
+     * Returns the ready-to-use data
+     *
+     * @return	array
      */
     public abstract function getData();
+
+    /**
+     * Set the graph's data
+     *
+     * @param   array           $data
+     * @return  void
+     */
+    public abstract function setData($data);
 
     /**
      * Returns the ready-to-use data as JSON string
@@ -191,15 +205,5 @@ abstract class AmChart
     }
 
     protected abstract function setDefaultConfig();
-
-    /**
-     * Set error text (shown if an error occurs while initializing the chart).
-     *
-     * @param	string	$text	error text
-     */
-    public function setErrorText($text)
-    {
-        $this->errorText = $text;
-    }
 
 }

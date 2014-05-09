@@ -1,8 +1,8 @@
 <?php
 
 /*
- * AmCharts-PHP 0.3.1
- * Copyright (C) 2009-2013 Fusonic GmbH
+ * AmCharts-PHP 0.3
+ * Copyright (C) 2009-2014 Fusonic GmbH
  *
  * This file is part of AmCharts-PHP.
  *
@@ -47,36 +47,34 @@ class AmSerialChart extends AmChart
     }
 
     /**
-     * Adds a new ValueAxe (value on the X axis).
+     * Adds a new ValueAxe.
      *
-     * @param	string				$_id
-     * @param	string				$_title
-     * @param	array				$_config
+     * @param	string				$id
+     * @param	string				$title
+     * @param	array				$config
      */
-    public function addSerie($_id, $_title, array $_config = array())
+    public function addSerie($id, $title, array $config = array())
     {
         $this->valueAxes[] = array(
-            "id" => $_id,
-            "title" => $_title,
-            "config" => $_config
+            "id" => $id,
+            "title" => $title,
+            "config" => $config
         );
     }
 
     /**
      * Adds a new graph (data line/bar).
-     * @param	string				$_id
-     * @param	string				$_title
-     * @param	array				$_config
+     * @param	string				$valueField
+     * @param	array				$config
      */
-    public function addGraph($_id, $_title, array $_config = array())
+    public function addGraph($valueField, array $config = array())
     {
         $this->graphs[] = array_merge(array(
-            "valueField" => $_id,
-            "title" => $_title
-        ), $_config);
+            "valueField" => $valueField,
+        ), $config);
     }
 
-    public function addData($data)
+    public function setData($data)
     {
         $this->data = $data;
     }
@@ -84,11 +82,11 @@ class AmSerialChart extends AmChart
     /**
      * Sets the default config for graphs.
      *
-     * @param	array				$_config
+     * @param	array				$config
      */
-    public function setDefaultGraphConfig(array $_config)
+    public function setDefaultGraphConfig(array $config)
     {
-        $this->defaultGraphConfig = $_config;
+        $this->defaultGraphConfig = $config;
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
 /*
- * AmCharts-PHP 0.3.1
- * Copyright (C) 2009-2013 Fusonic GmbH
+ * AmCharts-PHP 0.3
+ * Copyright (C) 2009-2014 Fusonic GmbH
  *
  * This file is part of AmCharts-PHP.
  *
@@ -27,7 +27,6 @@ require_once(dirname(__FILE__) . "/AmChart.php");
  */
 class AmPieChart extends AmChart
 {
-    protected $slices = array();
     protected $defaultSliceConfig = array();
     protected $jsPath = "pie.js";
 
@@ -48,30 +47,21 @@ class AmPieChart extends AmChart
     }
 
     /**
-     * Adds a new slice to the pie chart.
-     *
-     * @param	string				$_id
-     * @param	string				$_title
-     * @param	mixed				$_value
-     * @param	array				$_config
-     */
-    public function addSlice($_id, $_title, $_value, array $_config = array())
-    {
-        $this->slices[] = array(
-            "id" => $_id,
-            "title" => $_title,
-            "value" => $_value
-        );
-    }
-
-    /**
      * @see AmChart::getData()
      */
     public function getData()
     {
-        return $this->slices;
+        return $this->data;
     }
 
+    /**
+     * @see     AmChart::setData()
+     * @param   arraz           $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
 
     protected function setDefaultConfig()
     {

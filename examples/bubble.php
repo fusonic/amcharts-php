@@ -13,15 +13,13 @@ $chart = new AmBubbleChart("myBubbleChart");
 $chart->setLibraryPath("../amcharts");
 
 // Add a graph
-$chart->addGraph("value", "My programming skills", array(
-    "xField" => "x",
-    "yField" => "y",
+$chart->addGraph("value", "x", "y", array(
     "bullet" => "circle",
     "lineAlpha" => 0.3
 ));
 
 // Add data
-$chart->addData(getData());
+$chart->setData(getData());
 
 // Get the HTML/JS code
 echo $chart->getCode();
