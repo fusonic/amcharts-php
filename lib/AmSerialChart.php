@@ -80,16 +80,6 @@ class AmSerialChart extends AmChart
     }
 
     /**
-     * Sets the default config for graphs.
-     *
-     * @param	array				$config
-     */
-    public function setDefaultGraphConfig(array $config)
-    {
-        $this->defaultGraphConfig = $config;
-    }
-
-    /**
      * @see AmChart::getData()
      */
     public function getData()
