@@ -50,16 +50,13 @@ class AmSerialChart extends AmChart
      * Adds a new ValueAxe.
      *
      * @param	string				$id
-     * @param	string				$title
      * @param	array				$config
      */
-    public function addSerie($id, $title, array $config = array())
+    public function addValueAxis($id, array $config = array())
     {
-        $this->valueAxes[] = array(
-            "id" => $id,
-            "title" => $title,
-            "config" => $config
-        );
+        $this->valueAxes[] = array_merge(array(
+            "id" => $id
+        ), $config);
     }
 
     /**
