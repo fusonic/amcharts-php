@@ -1,4 +1,4 @@
-amcharts-php
+amcharts-php v0.3
 ============
 
 amcharts-php enables you to create amcharts in PHP. 
