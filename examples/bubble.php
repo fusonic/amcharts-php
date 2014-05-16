@@ -1,70 +1,46 @@
 <?php
 
 /*
- * Read README file first.
- *
- * This example shows how to create a simple bubble chart with a few configuration
- * directives.
+ * This example shows how to create a simple bubble chart.
  */
 
 // Require necessary files
 require("../lib/AmBubbleChart.php");
 
-// Alls paths are relative to your base path (normally your php file)
-// Path to swfobject.js
-AmChart::$swfObjectPath = "swfobject.js";
-// Path to AmCharts files (SWF files)
-AmChart::$libraryPath = "../../../amcharts";
-// Path to jquery.js
-AmChart::$jQueryPath = "jquery.js";
-
-// Initialize the chart (the parameter is just a unique id used to handle multiple
-// charts on one page.)
 $chart = new AmBubbleChart("myBubbleChart");
 
-// Draw a triangle
-$triangle = array(
-	array(
-		"x" => 2,
-		"y" => 2,
-		"value" => 1,
-		"bullet_color" => "#FF0000"
-	),
-	array(
-		"x" => 5,
-		"y" => 5,
-		"value" => 2,
-		"bullet_color" => "#00FF00"
-	),
-	array(
-		"x" => 8,
-		"y" => 2,
-		"value" => 3,
-		"bullet_color" => "#0000FF"
-	)
-);
-$chart->addGraph("triangle", "My open triangle", $triangle, array("bullet" => "bubble"));
+// Set the path to the amcharts JS library
+$chart->setLibraryPath("../amcharts");
 
-// Draw a rectangle
-$rectangle = array(
-	array(
-		"x" => 4,
-		"y" => 2
-	),
-	array(
-		"x" => 4,
-		"y" => 3
-	),
-	array(
-		"x" => 6,
-		"y" => 3
-	),
-	array(
-		"x" => 6,
-		"y" => 2
-	)
-);
-$chart->addGraph("rectangle", "My open rectangle", $rectangle, array("color" => "#000000"));
+// Add a graph
+$chart->addGraph("value", "x", "y", array(
+    "bullet" => "circle",
+    "lineAlpha" => 0.3
+));
 
-// Print the code
+// Add data
+$chart->setData(getData());
+
+// Get the HTML/JS code
 echo $chart->getCode();
+
+function getData()
+{
+    return array(
+        array(
+            "x" => 1,
+            "y" => 6,
+            "value" => 9
+        ),
+        array(
+            "x" => 7,
+            "y" => 15,
+            "value" => 8
+        ),
+        array(
+            "x" => 2,
+            "y" => 15,
+            "value" => 10
+        ),
+    );
+}

@@ -1,67 +1,67 @@
 <?php
 
 /*
- * Read README file first.
- *
  * This example shows how to create a simple bar chart with a few configuration
  * directives.
- * The values are from http://www.globalissues.org/article/26/poverty-facts-and-stats
  */
 
 // Require necessary files
-require("../lib/AmBarChart.php");
+require("../lib/AmSerialChart.php");
 
-// Alls paths are relative to your base path (normally your php file)
-// Path to swfobject.js
-AmChart::$swfObjectPath = "swfobject.js";
-// Path to AmCharts files (SWF files)
-AmChart::$libraryPath = "../../../amcharts";
-// Path to jquery.js
-AmChart::$jQueryPath = "jquery.js";
+$chart = new AmSerialChart("myBarChart");
 
-// Initialize the chart (the parameter is just a unique id used to handle multiple
-// charts on one page.)
-$chart = new AmBarChart("myBarChart");
+// Set the path to the amcharts JS library
+$chart->setLibraryPath("../amcharts");
 
-// Set an alternative text.
-$chart->setAlternativeText("You should install Flash to see a chart!");
+// Set the X axes to represent the "country" field (optional)
+$chart->setConfig("categoryField", "country");
 
-// The title we set will be shown above the chart, not in the flash object.
-// So you can format it using CSS.
-$chart->setTitle("People in the world at different poverty levels, 2005");
+// Add uber nice animation (optional)
+$chart->setConfig("startDuration", 1);
 
-// Add a label to describe the X values (inside the chart).
-$chart->addLabel("The values on the X axis describe the Purchasing Power in USD Dollars a day.", 0, 20);
+// Add a title
+$chart->addTitle("GDP from some south american countries");
 
-// Add all values for the X axis
-$chart->addSerie("1_00", "$1.00");
-$chart->addSerie("1_25", "$1.25");
-$chart->addSerie("1_45", "$1.45");
-$chart->addSerie("2_00", "$2.00");
-$chart->addSerie("2_50", "$2.50");
-$chart->addSerie("10_00", "$10.00");
-
-// Define graphs data
-$belowPovertyLine = array(
-	"1_00" => 0.88,
-	"1_25" => 1.40,
-	"1_45" => 1.72,
-	"2_00" => 2.60,
-	"2_50" => 3.14,
-	"10_00" => 5.15
-);
-$abovePovertyLine = array(
-	"1_00" => 5.58,
-	"1_25" => 5.06,
-	"1_45" => 4.74,
-	"2_00" => 3.86,
-	"2_50" => 3.32,
-	"10_00" => 1.31
-);
+// Add the data for the chart to use
+$chart->setData(getData());
 
 // Add graphs
-$chart->addGraph("below", "Below the poverty line", $belowPovertyLine);
-$chart->addGraph("above", "Above the poverty line", $abovePovertyLine);
+$graphConfigBolivia = array(
+    "balloonText" => "[[country]]: [[gdp]] $", // Optional,
+    "type" => "column"
+);
 
-// Print the code
+$chart->addGraph("gdp", $graphConfigBolivia);
+
+// Get the HTML/JS code
 echo $chart->getCode();
+
+/**
+ * Return sample data
+ * @return array
+ */
+function getData()
+{
+    return array(
+        array(
+            "country" => "Bolivia",
+            "gdp" => 2575,
+        ),
+        array(
+            "country" => "Argentina",
+            "gdp" => 11557,
+        ),
+        array(
+            "country" => "Peru",
+            "gdp" => 6573,
+        ),
+        array(
+            "country" => "Chile",
+            "gdp" => 15363,
+        ),
+        array(
+            "country" => "Ecuador",
+            "gdp" => 5456,
+        ),
+    );
+}

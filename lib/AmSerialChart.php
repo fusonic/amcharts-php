@@ -22,13 +22,13 @@
 
 require_once(dirname(__FILE__) . "/AmChart.php");
 
-/**
- * Class to create a pie chart from the amCharts library.
- */
-class AmPieChart extends AmChart
+class AmSerialChart extends AmChart
 {
-    protected $defaultSliceConfig = array();
-    protected $jsPath = "pie.js";
+    protected $data = array();
+    protected $valueAxes = array();
+    protected $graphs = array();
+    protected $jsPath = "serial.js";
+    protected $defaultGraphConfig = array();
 
     /**
      * @see AmChart::getJSPath()
@@ -47,6 +47,36 @@ class AmPieChart extends AmChart
     }
 
     /**
+     * Adds a new ValueAxe.
+     *
+     * @param	string				$id
+     * @param	array				$config
+     */
+    public function addValueAxis($id, array $config = array())
+    {
+        $this->valueAxes[] = array_merge(array(
+            "id" => $id
+        ), $config);
+    }
+
+    /**
+     * Adds a new graph (data line/bar).
+     * @param	string				$valueField
+     * @param	array				$config
+     */
+    public function addGraph($valueField, array $config = array())
+    {
+        $this->graphs[] = array_merge(array(
+            "valueField" => $valueField,
+        ), $config);
+    }
+
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
      * @see AmChart::getData()
      */
     public function getData()
@@ -55,19 +85,11 @@ class AmPieChart extends AmChart
     }
 
     /**
-     * @see     AmChart::setData()
-     * @param   arraz           $data
+     * @see AmChart::setDefaultConfig()
      */
-    public function setData($data)
-    {
-        $this->data = $data;
-    }
-
     protected function setDefaultConfig()
     {
-        $this->config['type'] = "pie";
-        $this->config['titleField'] = "title";
-        $this->config['valueField'] = "value";
+        $this->config['type'] = "serial";
     }
 
     /**
@@ -77,6 +99,8 @@ class AmPieChart extends AmChart
      */
     public function getConfig()
     {
+        $this->config['graphs'] = $this->graphs;
+        $this->config['valueAxes'] = $this->valueAxes;
         return $this->config;
     }
 }
