@@ -58,18 +58,16 @@ abstract class AmChart
      * @param   string          $color
      * @param   int             $size
      * @param   string          $id         HTML-ID of the title
-     * @param   string          $color
      * @param   int             $alpha
      * @return  void
      */
-    public function addTitle($text, $color = "", $size = 14, $id = "chart-title", $color = "#000", $alpha = 1)
+    public function addTitle($text, $color = "", $size = 14, $id = "chart-title", $alpha = 1)
     {
         $this->config["titles"][] = array(
             "text" => $text,
             "color" => $color,
             "size" => $size,
             "id" => $id,
-            "color" => $color,
             "alpha" => $alpha
         );
     }
